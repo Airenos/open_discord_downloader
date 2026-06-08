@@ -1,0 +1,41 @@
+{
+   "manifest_version": 3,
+   "name": "Discord Emoji & Sticker Downloader",
+   "version": "1.0.0",
+   "description": "A free, open-source browser extension to batch download emojis and stickers from Discord servers.",
+   "icons": {
+      "16": "icons/logo16.png",
+      "32": "icons/logo32.png",
+      "48": "icons/logo48.png",
+      "128": "icons/logo128.png"
+   },
+   "action": {
+      "default_icon": {
+         "16": "icons/logo16.png",
+         "32": "icons/logo32.png",
+         "48": "icons/logo48.png",
+         "128": "icons/logo128.png"
+      },
+      "default_popup": "popup.html",
+      "default_title": "Discord Emoji Downloader"
+   },
+   "background": {
+      "service_worker": "background.js"
+   },
+   "content_scripts": [ {
+      "js": [ "content.js" ],
+      "matches": [ "https://discord.com/*" ],
+      "run_at": "document_end"
+   } ],
+   "permissions": [ "activeTab", "storage" ],
+   "host_permissions": [ 
+       "https://discord.com/*", 
+       "https://cdn.discordapp.com/*", 
+       "https://media.discordapp.net/*", 
+       "https://corsproxy.io/*" 
+   ],
+   "web_accessible_resources": [ {
+      "matches": [ "https://discord.com/*" ],
+      "resources": [ "inject.js" ]
+   } ]
+}

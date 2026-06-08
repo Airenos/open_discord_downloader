@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Emoji Downloader</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Error / Redirect View -->
+        <div id="view-redirect" class="view hidden">
+            <div class="redirect-content">
+                <img src="icons/logo128.png" alt="Logo" class="logo-large">
+                <h2>Discord Emoji Downloader</h2>
+                <p>Please open Discord in your browser to use this extension.</p>
+                <button id="btn-open-discord" class="btn btn-primary">Open Discord</button>
+            </div>
+        </div>
+
+        <!-- Main View -->
+        <div id="view-main" class="view">
+            <header>
+                <img src="icons/logo48.png" alt="Logo" class="logo-small">
+                <h1>Discord Emoji Downloader</h1>
+            </header>
+
+            <div id="status-container" class="status connecting">
+                <span class="status-indicator"></span>
+                <span id="status-text">Connecting to Discord...</span>
+            </div>
+
+            <div class="control-group">
+                <label for="server-select">Select Server</label>
+                <select id="server-select" disabled>
+                    <option value="">Loading servers...</option>
+                </select>
+            </div>
+
+            <div id="content-area" class="hidden">
+                <!-- Emojis Section -->
+                <div class="section-header">
+                    <h3>Emojis (<span id="count-emojis">0/0</span>)</h3>
+                    <div class="actions">
+                        <button class="btn btn-small" id="btn-all-emojis">All</button>
+                        <button class="btn btn-small" id="btn-no-emojis">None</button>
+                    </div>
+                </div>
+                <div id="grid-emojis" class="grid"></div>
+
+                <!-- Stickers Section -->
+                <div class="section-header">
+                    <h3>Stickers (<span id="count-stickers">0/0</span>)</h3>
+                    <div class="actions">
+                        <button class="btn btn-small" id="btn-all-stickers">All</button>
+                        <button class="btn btn-small" id="btn-no-stickers">None</button>
+                    </div>
+                </div>
+                <div id="grid-stickers" class="grid"></div>
+
+                <button id="btn-download" class="btn btn-primary btn-large">
+                    Download <span id="download-count">0</span> Items
+                </button>
+            </div>
+        </div>
+        
+        <!-- Loading Overlay -->
+        <div id="loading-overlay" class="hidden">
+            <div class="spinner"></div>
+            <div id="loading-text">Processing...</div>
+        </div>
+    </div>
+    <script src="libs/jszip.min.js"></script>
+    <script src="popup.js"></script>
+</body>
+</html>
