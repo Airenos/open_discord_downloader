@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Discord Emoji & Sticker Downloader
 // @namespace    https://github.com/
-// @version      1.0.7
+// @version      1.0.8
 // @description  Batch download custom emojis and stickers from Discord servers.
 // @author       Airenos (https://github.com/Airenos)
 // @license      MIT
@@ -217,8 +217,42 @@
         const stGrid = shadow.querySelector('#sticker-grid');
         const dlBtn = shadow.querySelector('#dl-btn');
 
+        // Drag Logic
+        let isDragging = false;
+        btnOpen.addEventListener('mousedown', (e) => {
+            isDragging = false;
+            const startX = e.clientX, startY = e.clientY;
+            const rect = host.getBoundingClientRect();
+            
+            // Switch from right/bottom to left/top for predictable dragging
+            host.style.right = 'auto';
+            host.style.bottom = 'auto';
+            host.style.left = rect.left + 'px';
+            host.style.top = rect.top + 'px';
+
+            const onMouseMove = (moveEvent) => {
+                const dx = moveEvent.clientX - startX;
+                const dy = moveEvent.clientY - startY;
+                if (Math.abs(dx) > 3 || Math.abs(dy) > 3) isDragging = true;
+                if (isDragging) {
+                    host.style.left = (rect.left + dx) + 'px';
+                    host.style.top = (rect.top + dy) + 'px';
+                }
+            };
+            const onMouseUp = () => {
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+            };
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+        });
+
         // Logic
-        btnOpen.onclick = async () => {
+        btnOpen.onclick = async (e) => {
+            if (isDragging) {
+                e.preventDefault();
+                return;
+            }
             overlay.classList.add('open');
             if (select.options.length <= 1) {
                 select.innerHTML = '<option>Step 1: Extracting Token...</option>';
